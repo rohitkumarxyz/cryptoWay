@@ -1,6 +1,7 @@
 "use client";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 const Navbar = () => {
     return (
@@ -10,12 +11,14 @@ const Navbar = () => {
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.5 }}
         >
+            <Link href="/">
             <motion.div
-                className="text-2xl font-extrabold bg-gradient-to-r from-blue-400 to-purple-500 text-transparent bg-clip-text"
+                className="text-2xl cursor-pointer font-extrabold bg-gradient-to-r from-blue-400 to-purple-500 text-transparent bg-clip-text"
                 whileHover={{ scale: 1.05 }}
             >
                 CryptoWay
             </motion.div>
+            </Link>
 
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
                 <Button className="bg-blue-500 hover:bg-blue-600 px-6 py-2 rounded-lg text-sm font-semibold">
