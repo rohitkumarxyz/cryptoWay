@@ -1,8 +1,11 @@
-import { Home } from "@/components/ui/Home";
+import { Security } from "@/components/ui/security";
+import { HeroPage } from "@/components/ui/HeroPage";
+
 export default function page() {
   return (
     <div>
-      <Home />
+      <Security />
+      <HeroPage />
     </div>
   );
 }
