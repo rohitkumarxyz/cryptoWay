@@ -1,16 +1,22 @@
 import { useState } from "react";
 import { generateMnemonic } from "bip39";
 
-export const SeedPhrase = ({onGenerate}: {onGenerate: (seedPhrase: string) => void}) => {
+export const SeedPhrase = ({ onGenerate }: { onGenerate: (seedPhrase: string) => void }) => {
     const [seedPhrase, setSeedPhrase] = useState("");
     const [isGenerated, setIsGenerated] = useState(false);
 
     // Generate a new seed phrase
     const generateSeedPhrase = () => {
         const newSeed = generateMnemonic();
-        setSeedPhrase(newSeed);
-        setIsGenerated(true);
-        onGenerate(newSeed);
+
+        const storedSeeds = JSON.parse(localStorage.getItem("seedPhrases") || "[]");
+        if (!storedSeeds.includes(newSeed)) {
+            storedSeeds.push(newSeed);
+            localStorage.setItem("seedPhrases", JSON.stringify(storedSeeds));
+            setSeedPhrase(newSeed);
+            setIsGenerated(true);
+            onGenerate(newSeed);
+        }
     };
 
     // Download seed phrase as CSV
@@ -22,33 +28,11 @@ export const SeedPhrase = ({onGenerate}: {onGenerate: (seedPhrase: string) => vo
         link.click();
     };
 
-    // Upload and parse seed phrase from CSV
-    const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const file = event.target.files?.[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                if (e.target?.result) {
-                    setSeedPhrase(e.target.result as string);
-                    setIsGenerated(true);
-                }
-            };
-            reader.readAsText(file);
-        }
-    };
 
     return (
         <div className="text-center p-6">
             {!isGenerated && (
                 <div>
-                    <input
-                        type="text"
-                        placeholder="Enter your existing seed phrase"
-                        className="px-4 py-2 mt-4 border text-gray-900 border-gray-300 rounded-lg w-full max-w-md mx-auto"
-                        onChange={(e) => setSeedPhrase(e.target.value)}
-                        value={seedPhrase}
-                    />
-                    
                     <div className="mt-4 flex flex-col sm:flex-row gap-4 justify-center">
                         <button
                             onClick={generateSeedPhrase}
@@ -56,16 +40,6 @@ export const SeedPhrase = ({onGenerate}: {onGenerate: (seedPhrase: string) => vo
                         >
                             Generate Seed Phrase
                         </button>
-
-                        <label className="px-6 py-2  text-gray-900 rounded-lg shadow-md cursor-pointer ">
-                            Import from CSV
-                            <input
-                                type="file"
-                                accept=".csv"
-                                onChange={handleFileUpload}
-                                className="hidden"
-                            />
-                        </label>
                     </div>
                 </div>
             )}
@@ -80,7 +54,7 @@ export const SeedPhrase = ({onGenerate}: {onGenerate: (seedPhrase: string) => vo
                         ))}
                     </div>
                     <h1 className="text-center mt-4 text-gray-500">Secured with <span className="font-bold">AES-256</span>  make sure to save it
-                         <br /> a safe place don't share it with anyone</h1>
+                        <br /> a safe place don't share it with anyone</h1>
                     <div className="mt-6 flex justify-center">
                         <button
                             onClick={downloadCSV}

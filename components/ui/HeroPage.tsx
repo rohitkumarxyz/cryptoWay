@@ -1,6 +1,7 @@
 "use client"
 import { Button } from "./button";
 import { motion } from "framer-motion";
+import { Import, ArrowRight } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
@@ -39,11 +40,13 @@ const HeroPage = () => {
                     Securely manage, swap, and grow your crypto assets with ease.
                 </p>
                 <div className="mt-6 flex flex-col gap-4 sm:flex-row sm:justify-center">
-                    <Button onClick={() => router.push('/learn')} className="cursor-pointer px-6 py-3 text-lg font-medium bg-gradient-to-r from-blue-500 to-blue-700 text-white rounded-lg shadow-lg hover:from-blue-600 hover:to-blue-800 transition-all duration-300">
-                        Learn
-                    </Button>
-                    <Button onClick={() => router.push('/onboarding')} className="cursor-pointer px-6 py-3 text-lg font-medium bg-gradient-to-r from-gray-900 to-gray-700 text-white rounded-lg shadow-lg hover:from-gray-800 hover:to-gray-600 transition-all duration-300">
+                    <Button onClick={() => router.push('/onboarding?wallet=import')} className="cursor-pointer px-6 py-3 text-lg font-medium bg-gradient-to-r from-blue-500 to-blue-700 text-white rounded-lg shadow-lg hover:from-blue-600 hover:to-blue-800 transition-all duration-300">
                         Import Wallet
+                        <Import className="w-4 h-4 ml-2" />
+                    </Button>
+                    <Button onClick={() => router.push('/onboarding?wallet=new')} className="cursor-pointer px-6 py-3 text-lg font-medium bg-gradient-to-r from-gray-900 to-gray-700 text-white rounded-lg shadow-lg hover:from-gray-800 hover:to-gray-600 transition-all duration-300">
+                        New Wallet
+                        <ArrowRight className="w-4 h-4 ml-2" />
                     </Button>
                 </div>
             </div>
